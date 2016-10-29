@@ -1,95 +1,97 @@
+//#include "MainMenuScene.h"
 #include "HelloWorldScene.h"
-#include "SimpleAudioEngine.h"
+//#include "HelloWorldScene2.h"
+//#include "ShopScene.h"
+//#include "Managers/DatabaseManager.h"
+
+//#include "cocos2d/external/json/rapidjson.h"
+
+//#include "json/rapidjson.h"
+//#include "json/document.h"
 
 USING_NS_CC;
+using namespace cocos2d::ui;
 
-Scene* HelloWorld::createScene()
-{
-    // 'scene' is an autorelease object
+Scene* HelloWorld::createScene() {
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
 
-    // return the scene
     return scene;
 }
 
-// on "init" you need to initialize your instance
-bool HelloWorld::init()
-{
-    //////////////////////////////
-    // 1. super init first
-    if ( !Layer::init() )
-    {
+bool HelloWorld::init() {
+    if (!Layer::init()) {
         return false;
     }
-    
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+//#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+//    DataBaseManager *sql = DataBaseManager::getInstance();
+//    sql->insert("foo", "value1");
+//    std::string value = sql->select("foo");
+//    auto label = Label::createWithTTF(value,"fonts/Marker Felt.ttf",32);
+//    label->setPosition(100, 100);
+//    this->addChild(label);
+//#endif
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
+    initPageView();
+//    initShopButton();
 
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
-
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-    
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
-    
     return true;
 }
 
+void HelloWorld::onTextClicked(Ref *sender, Widget::TouchEventType type) {
+    auto parent =  this->getChildByTag(0);
+//    auto text = RichElementText)
+    if (_isClicked) {
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
-{
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
+    } else {
 
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
-    
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() and exit(0) as given above,instead trigger a custom event created in RootViewController.mm as below*/
-    
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
-    
-    
+    }
+}
+
+void HelloWorld::initPageView() {
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+
+    Size size(800, 1400);
+    PageView* pageView = PageView::create();
+    pageView->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    pageView->setDirection(PageView::Direction::VERTICAL);
+    pageView->setContentSize(size);
+    pageView->setPosition(visibleSize / 2.f);
+    pageView->removeAllItems();
+    pageView->setIndicatorEnabled(false);
+
+    int pageCount = 30;
+    for (int i = 0; i < pageCount; ++i) {
+        Layout* layout = Layout::create();
+        layout->setContentSize(size);
+
+        auto imageView = ImageView::create("26.jpg");
+//        auto imageView = RichElementImage::create(0, Color3B::WHITE, 0.5, "26.jpg");
+
+//        auto richText = RichText::createWithXML("<font face=\"fonts/Marker Felt.ttf\" size=\"24\"><glow color=\"#AFEEEE\">Важно никогда не опаздывать.\nЗаранее продумайте план, как добраться до места\nвстречи.\nСтарайтесь быть к назначенному времени</glow></font>");
+//        richText->ignoreContentAdaptWithSize(false);
+//        richText->setContentSize(Size(100, 100));
+//        richText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+//        richText->setPosition(Vec2(layout->getContentSize().width / 2, layout->getContentSize().height / 4));
+//        richText->setLocalZOrder(10);
+        auto text = Text::create("Важно никогда не опаздывать.\nЗаранее продумайте план, как добраться до места\nвстречи.\nСтарайтесь быть к назначенному времени", "fonts/arial.ttf", 44);
+        text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        text->enableGlow(Color4B::GREEN);//  Text::ignoreContentAdaptWithSize(false)
+
+        text->setPosition(Vec2(layout->getContentSize().width / 2, layout->getContentSize().height / 4));
+        text->setLocalZOrder(10);
+
+        layout->addChild(text);
+
+        imageView->setContentSize(size);
+        imageView->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+        imageView->setPosition(Vec2(layout->getContentSize().width / 2.0f, 1400));
+        layout->addChild(imageView);
+
+        pageView->insertCustomItem(layout, i);
+    }
+
+    this->addChild(pageView, 1, 0);
 }

@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -15,6 +16,13 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+
+    void onTextClicked(Ref *sender, cocos2d::ui::Widget::TouchEventType type);
+
+private:
+    void initPageView();
+//    std::string _text;
+    bool _isClicked;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
