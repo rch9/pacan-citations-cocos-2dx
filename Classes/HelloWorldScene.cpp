@@ -51,88 +51,52 @@ void HelloWorld::initPageView() {
 
         fillLayout(layout, i);
 
-        pageView->insertCustomItem(layout, i);
+        pageView->pushBackCustomItem(layout);
     }
-
-//    pageView->addEventListener(CC_CALLBACK_2(HelloWorld::pageViewEvent, this));
+    pageView->addEventListener(CC_CALLBACK_2(HelloWorld::pageViewEvent, this));
     this->addChild(pageView, 1, 0);
 }
 
-void HelloWorld::pageViewEvent(Ref *pSender) {
+void HelloWorld::pageViewEvent(Ref *pSender, PageView::EventType type) {
 //    if (type == PageView::EventType::TURNING) {
-////        auto pageView = dynamic_cast<PageView*>(pSender);
-////        addPageViewInCurLayoutAndRemoveOldPageView(pageView);
-//        CCLOG("aaaa1");
-//    } else {
-//        CCLOG("aaaa");
+
 //    }
 }
 
 void HelloWorld::fillLayout(Layout *layout, const int& i) {
-    auto imageView = ImageView::create("26.jpg");
+
+    auto imageView = ImageView::create(convertInt(i));
     imageView->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     imageView->setPosition(Vec2(0, 1400));
-    imageView->addClickEventListener(CC_CALLBACK_1(HelloWorld::onTextClicked, this));
+//    imageView->addClickEventListener(CC_CALLBACK_1(HelloWorld::onTextClicked, this));
     layout->addChild(imageView);
 
-
-//    layout->setOnEnterCallback(CC_CALLBACK_2(HelloWorld::pageViewEvent, this));
-
-//    layout->addClickEventListener(CC_CALLBACK_2(this, HelloWorld::pageViewEvent));
-
-//    Button::create()->setContentSize();
-//    Button.setTEx
-
-//    layout->onTouchBegan()
-
-    Label* label = Label::createWithTTF("НИКОГДА\nНЕ\nОПАЗДЫВАЙ", "fonts/helios.ttf", 100);
+    auto label = Label::createWithTTF("НИКОГДА\nНЕ\nОПАЗДЫВАЙ", "fonts/helios.ttf", 100);
     label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     label->setPosition(Vec2(layout->getContentSize().width / 2, layout->getContentSize().height / 4));
-    label->setLocalZOrder(10);
     label->setWidth(800);
     label->setAlignment(TextHAlignment::CENTER);
 
-//    auto listener1 = EventListenerTouchOneByOne::create();
 
-//    // trigger when you push down
-//    listener1->onTouchBegan = [=](Touch* touch, Event* event){
-//        // your code
-//        return true; // if you are consuming it
-//    };
-
-//    // trigger when moving touch
-//    listener1->onTouchMoved = [=](Touch* touch, Event* event){
-//        // your code
-//    };
-
-//    // trigger when you let up
-//    listener1->onTouchEnded = [=](Touch* touch, Event* event){
-//        // your code
-//    };
-
-//    label->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener1, this);
-
-
-
-
-    layout->addChild(label);
-
+    auto btn = Button::create("bg.jpg", "bg.jpg");
+    btn->setContentSize(Size(800, 600));
+    btn->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    btn->setPosition(Vec2(0, 0));
+    btn->addTouchEventListener( CC_CALLBACK_2(HelloWorld::onButtonClicked, this));
+    layout->addChild(label, 1, 0);
+    layout->addChild(btn, 0);
 }
 
-//void HelloWorld::addPageViewInCurLayoutAndRemoveOldPageView(PageView *pageView) {
-//    pageView->getItem(pageView->getCurrentPageIndex() - 1)->removeChildByTag(0, true);
-//    auto layout = static_cast<Layout*>(pageView->getCurrentFocusedWidget());
-//    addPageViewInLayout(layout);
-//}
+void HelloWorld::onButtonClicked(Ref* sender, Widget::TouchEventType type) {
+    if (type == Widget::TouchEventType::ENDED) {
+        CCLOG("ddd");
+        static_cast<Label*>(dynamic_cast<Widget*>(sender)->getParent()->getChildByTag(0))->setString("ТОЧНО?");
+    }
+}
 
-//        auto text = Text::create("Важно никогда не опаздывать.\nЗаранее продумайте план, как добраться до места\nвстречи.\nСтарайтесь быть к назначенному времени", "fonts/arial.ttf", 44);
-//        Label* text = Label::createWithTTF("НИКОГДА НЕ ОПАЗДЫВАЙ", "fonts/helios.ttf", 100);
-//        text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-//        text->setPosition(Vec2(layout->getContentSize().width / 2, layout->getContentSize().height / 4));
-//        text->setLocalZOrder(10);
-//        //        text->setLineBreakWithoutSpace(true);
-//        text->setWidth(800);
-//        text->setAlignment(TextHAlignment::LEFT);
-//        //        text->setAdditionalKerning(2);
-//
-//        layout->addChild(text);
+std::string HelloWorld::convertInt(const int &i) {
+    char buffer[10];
+    sprintf(buffer, "img/%d.jpg", i + 1);
+
+    return std::string(buffer);
+}

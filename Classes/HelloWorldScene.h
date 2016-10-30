@@ -20,11 +20,13 @@ public:
     void onTextClicked(Ref *sender);
 
 //    void pageViewEvent(Ref *pSender, cocos2d::ui::PageView::EventType type);
-    void pageViewEvent(Ref *pSender);
+    void pageViewEvent(Ref *pSender, cocos2d::ui::PageView::EventType type);
+    void onButtonClicked(Ref *sender, cocos2d::ui::Widget::TouchEventType type);
 private:
     void initPageView();
 //    void pageViewEvent();
     void fillLayout(cocos2d::ui::Layout* layout, const int &i);
+    std::string convertInt(const int &i);
 };
 
 #endif // __HELLOWORLD_SCENE_H__
