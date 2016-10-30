@@ -17,12 +17,14 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 
-    void onTextClicked(Ref *sender, cocos2d::ui::Widget::TouchEventType type);
+    void onTextClicked(Ref *sender);
 
+//    void pageViewEvent(Ref *pSender, cocos2d::ui::PageView::EventType type);
+    void pageViewEvent(Ref *pSender);
 private:
     void initPageView();
-//    std::string _text;
-    bool _isClicked;
+//    void pageViewEvent();
+    void fillLayout(cocos2d::ui::Layout* layout, const int &i);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

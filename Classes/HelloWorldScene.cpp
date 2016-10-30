@@ -1,13 +1,4 @@
-//#include "MainMenuScene.h"
 #include "HelloWorldScene.h"
-//#include "HelloWorldScene2.h"
-//#include "ShopScene.h"
-//#include "Managers/DatabaseManager.h"
-
-//#include "cocos2d/external/json/rapidjson.h"
-
-//#include "json/rapidjson.h"
-//#include "json/document.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -25,29 +16,20 @@ bool HelloWorld::init() {
         return false;
     }
 
-//#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-//    DataBaseManager *sql = DataBaseManager::getInstance();
-//    sql->insert("foo", "value1");
-//    std::string value = sql->select("foo");
-//    auto label = Label::createWithTTF(value,"fonts/Marker Felt.ttf",32);
-//    label->setPosition(100, 100);
-//    this->addChild(label);
-//#endif
 
     initPageView();
-//    initShopButton();
 
     return true;
 }
 
-void HelloWorld::onTextClicked(Ref *sender, Widget::TouchEventType type) {
-    auto parent =  this->getChildByTag(0);
-//    auto text = RichElementText)
-    if (_isClicked) {
+void HelloWorld::onTextClicked(Ref *sender) {
+    //    auto parent =  this->getChildByTag(0);
+    //    auto text = RichElementText)
+    //    if (_isClicked) {
 
-    } else {
+    //    } else {
 
-    }
+    //    }
 }
 
 void HelloWorld::initPageView() {
@@ -67,31 +49,90 @@ void HelloWorld::initPageView() {
         Layout* layout = Layout::create();
         layout->setContentSize(size);
 
-        auto imageView = ImageView::create("26.jpg");
-//        auto imageView = RichElementImage::create(0, Color3B::WHITE, 0.5, "26.jpg");
-
-//        auto richText = RichText::createWithXML("<font face=\"fonts/Marker Felt.ttf\" size=\"24\"><glow color=\"#AFEEEE\">Важно никогда не опаздывать.\nЗаранее продумайте план, как добраться до места\nвстречи.\nСтарайтесь быть к назначенному времени</glow></font>");
-//        richText->ignoreContentAdaptWithSize(false);
-//        richText->setContentSize(Size(100, 100));
-//        richText->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-//        richText->setPosition(Vec2(layout->getContentSize().width / 2, layout->getContentSize().height / 4));
-//        richText->setLocalZOrder(10);
-        auto text = Text::create("Важно никогда не опаздывать.\nЗаранее продумайте план, как добраться до места\nвстречи.\nСтарайтесь быть к назначенному времени", "fonts/arial.ttf", 44);
-        text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        text->enableGlow(Color4B::GREEN);//  Text::ignoreContentAdaptWithSize(false)
-
-        text->setPosition(Vec2(layout->getContentSize().width / 2, layout->getContentSize().height / 4));
-        text->setLocalZOrder(10);
-
-        layout->addChild(text);
-
-        imageView->setContentSize(size);
-        imageView->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-        imageView->setPosition(Vec2(layout->getContentSize().width / 2.0f, 1400));
-        layout->addChild(imageView);
+        fillLayout(layout, i);
 
         pageView->insertCustomItem(layout, i);
     }
 
+//    pageView->addEventListener(CC_CALLBACK_2(HelloWorld::pageViewEvent, this));
     this->addChild(pageView, 1, 0);
 }
+
+void HelloWorld::pageViewEvent(Ref *pSender) {
+//    if (type == PageView::EventType::TURNING) {
+////        auto pageView = dynamic_cast<PageView*>(pSender);
+////        addPageViewInCurLayoutAndRemoveOldPageView(pageView);
+//        CCLOG("aaaa1");
+//    } else {
+//        CCLOG("aaaa");
+//    }
+}
+
+void HelloWorld::fillLayout(Layout *layout, const int& i) {
+    auto imageView = ImageView::create("26.jpg");
+    imageView->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+    imageView->setPosition(Vec2(0, 1400));
+    imageView->addClickEventListener(CC_CALLBACK_1(HelloWorld::onTextClicked, this));
+    layout->addChild(imageView);
+
+
+//    layout->setOnEnterCallback(CC_CALLBACK_2(HelloWorld::pageViewEvent, this));
+
+//    layout->addClickEventListener(CC_CALLBACK_2(this, HelloWorld::pageViewEvent));
+
+//    Button::create()->setContentSize();
+//    Button.setTEx
+
+//    layout->onTouchBegan()
+
+    Label* label = Label::createWithTTF("НИКОГДА\nНЕ\nОПАЗДЫВАЙ", "fonts/helios.ttf", 100);
+    label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    label->setPosition(Vec2(layout->getContentSize().width / 2, layout->getContentSize().height / 4));
+    label->setLocalZOrder(10);
+    label->setWidth(800);
+    label->setAlignment(TextHAlignment::CENTER);
+
+//    auto listener1 = EventListenerTouchOneByOne::create();
+
+//    // trigger when you push down
+//    listener1->onTouchBegan = [=](Touch* touch, Event* event){
+//        // your code
+//        return true; // if you are consuming it
+//    };
+
+//    // trigger when moving touch
+//    listener1->onTouchMoved = [=](Touch* touch, Event* event){
+//        // your code
+//    };
+
+//    // trigger when you let up
+//    listener1->onTouchEnded = [=](Touch* touch, Event* event){
+//        // your code
+//    };
+
+//    label->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener1, this);
+
+
+
+
+    layout->addChild(label);
+
+}
+
+//void HelloWorld::addPageViewInCurLayoutAndRemoveOldPageView(PageView *pageView) {
+//    pageView->getItem(pageView->getCurrentPageIndex() - 1)->removeChildByTag(0, true);
+//    auto layout = static_cast<Layout*>(pageView->getCurrentFocusedWidget());
+//    addPageViewInLayout(layout);
+//}
+
+//        auto text = Text::create("Важно никогда не опаздывать.\nЗаранее продумайте план, как добраться до места\nвстречи.\nСтарайтесь быть к назначенному времени", "fonts/arial.ttf", 44);
+//        Label* text = Label::createWithTTF("НИКОГДА НЕ ОПАЗДЫВАЙ", "fonts/helios.ttf", 100);
+//        text->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+//        text->setPosition(Vec2(layout->getContentSize().width / 2, layout->getContentSize().height / 4));
+//        text->setLocalZOrder(10);
+//        //        text->setLineBreakWithoutSpace(true);
+//        text->setWidth(800);
+//        text->setAlignment(TextHAlignment::LEFT);
+//        //        text->setAdditionalKerning(2);
+//
+//        layout->addChild(text);
