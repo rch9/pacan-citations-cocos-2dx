@@ -6,9 +6,10 @@
 
 class TouchableLabel : public cocos2d::ui::Layout {
 public:
-    bool init() override;
+    bool init(const char *path, const char *key1, const char *key2);
 
-    CREATE_FUNC(TouchableLabel);
+    static TouchableLabel* create(const char *path, const char *key1, const char *key2);
+
 
     const std::string &getKey1() const;
     const std::string &getKey2() const;

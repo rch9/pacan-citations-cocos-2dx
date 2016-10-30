@@ -40,14 +40,13 @@ void HelloWorld::initPageView() {
     pageView->setPosition(visibleSize / 2.f);
     pageView->removeAllItems();
     pageView->setIndicatorEnabled(false);
-    pageView->setScrollDuration(0.3);
+//    pageView->setScrollDuration(0.3);
 
     int pageCount = 30;
     for (int i = 0; i < pageCount; ++i) {
-        auto layout = TouchableLabel::create();
-//        layout->setContentSize(size);
+        auto layout = TouchableLabel::create(convertInt(i).c_str(), convertJson(i, false).c_str(), convertJson(i, true).c_str());
 
-        fillLayout(layout, i);
+//        fillLayout(layout, i);
 
         pageView->pushBackCustomItem(layout);
     }
@@ -57,25 +56,11 @@ void HelloWorld::initPageView() {
 
 void HelloWorld::pageViewEvent(Ref *pSender, PageView::EventType type) {
     _isClicked = false;
-
-//    CCLOG("%d", _currentIndex);
-//    if (type == PageView::EventType::TURNING) {
-//        _currentIndex = dynamic_cast<PageView*>(pSender)->getCurrentPageIndex();
-//        CCLOG("%d", _currentIndex);
-//    }
 }
 
 void HelloWorld::fillLayout(Layout *layout, const int& ind) {
-//    auto imageView = ImageView::create(convertInt(ind));
-//    imageView->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-//    imageView->setPosition(Vec2(0, 1400));
-//    layout->addChild(imageView);
 
-//    auto node = TouchableLabel::create();
-//    node->setKey12(this->convertJson(ind, false).c_str(), this->convertJson(ind, true).c_str());
-//    layout->addChild(node, 0);
 }
-//LanguageType currentLanguageType = Application::getInstance()->getCurrentLanguage();
 
 
 std::string HelloWorld::convertInt(const int &ind) {
