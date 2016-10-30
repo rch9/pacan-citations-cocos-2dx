@@ -27,6 +27,9 @@ private:
 //    void pageViewEvent();
     void fillLayout(cocos2d::ui::Layout* layout, const int &i);
     std::string convertInt(const int &i);
+    bool _isClicked;
+    int _currentIndex;
+    std::string convertJson(int i, bool flag);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

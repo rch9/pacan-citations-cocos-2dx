@@ -1,4 +1,6 @@
 #include "HelloWorldScene.h"
+#include "editor-support/cocostudio/LocalizationManager.h"
+
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -15,7 +17,9 @@ bool HelloWorld::init() {
     if (!Layer::init()) {
         return false;
     }
+    _isClicked = false;
 
+    cocostudio::JsonLocalizationManager::getInstance()->initLanguageData("text/ru-RU.lang.json");
 
     initPageView();
 
@@ -23,13 +27,6 @@ bool HelloWorld::init() {
 }
 
 void HelloWorld::onTextClicked(Ref *sender) {
-    //    auto parent =  this->getChildByTag(0);
-    //    auto text = RichElementText)
-    //    if (_isClicked) {
-
-    //    } else {
-
-    //    }
 }
 
 void HelloWorld::initPageView() {
@@ -58,9 +55,7 @@ void HelloWorld::initPageView() {
 }
 
 void HelloWorld::pageViewEvent(Ref *pSender, PageView::EventType type) {
-//    if (type == PageView::EventType::TURNING) {
-
-//    }
+    _isClicked = false;
 }
 
 void HelloWorld::fillLayout(Layout *layout, const int& i) {
@@ -68,7 +63,6 @@ void HelloWorld::fillLayout(Layout *layout, const int& i) {
     auto imageView = ImageView::create(convertInt(i));
     imageView->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
     imageView->setPosition(Vec2(0, 1400));
-//    imageView->addClickEventListener(CC_CALLBACK_1(HelloWorld::onTextClicked, this));
     layout->addChild(imageView);
 
     auto label = Label::createWithTTF("НИКОГДА\nНЕ\nОПАЗДЫВАЙ", "fonts/helios.ttf", 100);
@@ -77,20 +71,22 @@ void HelloWorld::fillLayout(Layout *layout, const int& i) {
     label->setWidth(800);
     label->setAlignment(TextHAlignment::CENTER);
 
-
     auto btn = Button::create("bg.jpg", "bg.jpg");
     btn->setContentSize(Size(800, 600));
     btn->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     btn->setPosition(Vec2(0, 0));
-    btn->addTouchEventListener( CC_CALLBACK_2(HelloWorld::onButtonClicked, this));
+    btn->addTouchEventListener(CC_CALLBACK_2(HelloWorld::onButtonClicked, this));
     layout->addChild(label, 1, 0);
     layout->addChild(btn, 0);
 }
+//LanguageType currentLanguageType = Application::getInstance()->getCurrentLanguage();
 
 void HelloWorld::onButtonClicked(Ref* sender, Widget::TouchEventType type) {
     if (type == Widget::TouchEventType::ENDED) {
-        CCLOG("ddd");
-        static_cast<Label*>(dynamic_cast<Widget*>(sender)->getParent()->getChildByTag(0))->setString("ТОЧНО?");
+        _isClicked = !_isClicked;
+        auto layout = static_cast<Layout*>(dynamic_cast<Button*>(sender)->getParent());
+        auto label = static_cast<Label*>(layout->getChildByTag(0));
+        label->setString(convertJson(1, _isClicked));
     }
 }
 
@@ -100,3 +96,16 @@ std::string HelloWorld::convertInt(const int &i) {
 
     return std::string(buffer);
 }
+
+std::string HelloWorld::convertJson(int i, bool flag) {
+
+    char buffer[3];
+    if (flag) {
+        sprintf(buffer, "%da", i + 1);
+    } else {
+        sprintf(buffer, "%d", i + 1);
+    }
+
+    return cocostudio::JsonLocalizationManager::getInstance()->getLocalizationString(buffer);
+}
+

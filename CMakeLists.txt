@@ -134,13 +134,19 @@ set(GAME_HEADERS
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 
+#include_directories(
+#    ${COCOS2D_ROOT}/cocos2d/external/json
+#)
+
+#file(GLOB AND_SOURCES "Classes/json/*")
+
 if( ANDROID )
-    add_library(${APP_NAME} SHARED ${GAME_SRC} ${GAME_HEADERS})
+    add_library(${APP_NAME} SHARED ${GAME_SRC} ${GAME_HEADERS} )
     IF(CMAKE_BUILD_TYPE MATCHES RELEASE)
         ADD_CUSTOM_COMMAND(TARGET ${APP_NAME} POST_BUILD COMMAND ${CMAKE_STRIP} lib${APP_NAME}.so)
     ENDIF()
 else()
-    add_executable(${APP_NAME} ${GAME_SRC} ${GAME_HEADERS})
+    add_executable(${APP_NAME} ${GAME_SRC} ${GAME_HEADERS} ${AND_SOURCES})
 endif()
 
 target_link_libraries(${APP_NAME} cocos2d)
