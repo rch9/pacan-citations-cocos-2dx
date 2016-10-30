@@ -25,11 +25,12 @@ public:
 private:
     void initPageView();
 //    void pageViewEvent();
-    void fillLayout(cocos2d::ui::Layout* layout, const int &i);
-    std::string convertInt(const int &i);
+    void fillLayout(cocos2d::ui::Layout* layout, const int& ind);
     bool _isClicked;
     int _currentIndex;
-    std::string convertJson(int i, bool flag);
+//    std::string convertJson(int i, bool flag);
+    std::string convertJson(const int &ind, bool flag);
+    std::string convertInt(const int &ind);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

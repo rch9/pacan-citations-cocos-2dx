@@ -1,6 +1,6 @@
 #include "HelloWorldScene.h"
 #include "editor-support/cocostudio/LocalizationManager.h"
-
+#include "TouchableLabel.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -18,7 +18,7 @@ bool HelloWorld::init() {
         return false;
     }
     _isClicked = false;
-
+    _currentIndex = 0;
     cocostudio::JsonLocalizationManager::getInstance()->initLanguageData("text/ru-RU.lang.json");
 
     initPageView();
@@ -40,11 +40,12 @@ void HelloWorld::initPageView() {
     pageView->setPosition(visibleSize / 2.f);
     pageView->removeAllItems();
     pageView->setIndicatorEnabled(false);
+    pageView->setScrollDuration(0.3);
 
     int pageCount = 30;
     for (int i = 0; i < pageCount; ++i) {
-        Layout* layout = Layout::create();
-        layout->setContentSize(size);
+        auto layout = TouchableLabel::create();
+//        layout->setContentSize(size);
 
         fillLayout(layout, i);
 
@@ -56,56 +57,43 @@ void HelloWorld::initPageView() {
 
 void HelloWorld::pageViewEvent(Ref *pSender, PageView::EventType type) {
     _isClicked = false;
+
+//    CCLOG("%d", _currentIndex);
+//    if (type == PageView::EventType::TURNING) {
+//        _currentIndex = dynamic_cast<PageView*>(pSender)->getCurrentPageIndex();
+//        CCLOG("%d", _currentIndex);
+//    }
 }
 
-void HelloWorld::fillLayout(Layout *layout, const int& i) {
+void HelloWorld::fillLayout(Layout *layout, const int& ind) {
+//    auto imageView = ImageView::create(convertInt(ind));
+//    imageView->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+//    imageView->setPosition(Vec2(0, 1400));
+//    layout->addChild(imageView);
 
-    auto imageView = ImageView::create(convertInt(i));
-    imageView->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-    imageView->setPosition(Vec2(0, 1400));
-    layout->addChild(imageView);
-
-    auto label = Label::createWithTTF("НИКОГДА\nНЕ\nОПАЗДЫВАЙ", "fonts/helios.ttf", 100);
-    label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    label->setPosition(Vec2(layout->getContentSize().width / 2, layout->getContentSize().height / 4));
-    label->setWidth(800);
-    label->setAlignment(TextHAlignment::CENTER);
-
-    auto btn = Button::create("bg.jpg", "bg.jpg");
-    btn->setContentSize(Size(800, 600));
-    btn->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    btn->setPosition(Vec2(0, 0));
-    btn->addTouchEventListener(CC_CALLBACK_2(HelloWorld::onButtonClicked, this));
-    layout->addChild(label, 1, 0);
-    layout->addChild(btn, 0);
+//    auto node = TouchableLabel::create();
+//    node->setKey12(this->convertJson(ind, false).c_str(), this->convertJson(ind, true).c_str());
+//    layout->addChild(node, 0);
 }
 //LanguageType currentLanguageType = Application::getInstance()->getCurrentLanguage();
 
-void HelloWorld::onButtonClicked(Ref* sender, Widget::TouchEventType type) {
-    if (type == Widget::TouchEventType::ENDED) {
-        _isClicked = !_isClicked;
-        auto layout = static_cast<Layout*>(dynamic_cast<Button*>(sender)->getParent());
-        auto label = static_cast<Label*>(layout->getChildByTag(0));
-        label->setString(convertJson(1, _isClicked));
-    }
-}
 
-std::string HelloWorld::convertInt(const int &i) {
+std::string HelloWorld::convertInt(const int &ind) {
     char buffer[10];
-    sprintf(buffer, "img/%d.jpg", i + 1);
+    sprintf(buffer, "img/%d.jpg", ind + 1);
 
     return std::string(buffer);
 }
 
-std::string HelloWorld::convertJson(int i, bool flag) {
+std::string HelloWorld::convertJson(const int &ind, bool flag) {
 
     char buffer[3];
     if (flag) {
-        sprintf(buffer, "%da", i + 1);
+        sprintf(buffer, "%da", ind + 1);
     } else {
-        sprintf(buffer, "%d", i + 1);
+        sprintf(buffer, "%d", ind + 1);
     }
 
-    return cocostudio::JsonLocalizationManager::getInstance()->getLocalizationString(buffer);
+    return std::string(buffer);
 }
 

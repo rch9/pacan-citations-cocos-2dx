@@ -125,12 +125,14 @@ endif( WIN32 )
 set(GAME_SRC
   Classes/AppDelegate.cpp
   Classes/HelloWorldScene.cpp
+  Classes/TouchableLabel.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
 set(GAME_HEADERS
   Classes/AppDelegate.h
   Classes/HelloWorldScene.h
+  Classes/TouchableLabel.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 
@@ -146,7 +148,7 @@ if( ANDROID )
         ADD_CUSTOM_COMMAND(TARGET ${APP_NAME} POST_BUILD COMMAND ${CMAKE_STRIP} lib${APP_NAME}.so)
     ENDIF()
 else()
-    add_executable(${APP_NAME} ${GAME_SRC} ${GAME_HEADERS} ${AND_SOURCES})
+    add_executable(${APP_NAME} ${GAME_SRC} ${GAME_HEADERS} )
 endif()
 
 target_link_libraries(${APP_NAME} cocos2d)
