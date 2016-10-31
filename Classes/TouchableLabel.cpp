@@ -21,7 +21,7 @@ bool TouchableLabel::init(const char *path, const char *key1, const char *key2) 
     label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     label->setPosition(Vec2(_contentSize.width / 2, 300));
     label->setWidth(700);
-    label->setAlignment(TextHAlignment::CENTER);
+    label->setAlignment(TextHAlignment::LEFT);
 
     auto btn = Button::create("bg.jpg", "bg.jpg");
     btn->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);

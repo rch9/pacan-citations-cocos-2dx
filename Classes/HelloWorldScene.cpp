@@ -42,7 +42,7 @@ void HelloWorld::initPageView() {
     pageView->setIndicatorEnabled(false);
 //    pageView->setScrollDuration(0.3);
 
-    int pageCount = 30;
+    int pageCount = 29;
     for (int i = 0; i < pageCount; ++i) {
         auto layout = TouchableLabel::create(convertInt(i).c_str(), convertJson(i, false).c_str(), convertJson(i, true).c_str());
 
