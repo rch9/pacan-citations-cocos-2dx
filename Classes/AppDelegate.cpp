@@ -39,7 +39,7 @@ static int register_all_packages()
 bool AppDelegate::applicationDidFinishLaunching() {
 #ifdef SDKBOX_ENABLED    
     sdkbox::IAP::init();
-    sdkbox::IAP::setDebug(true);
+    sdkbox::IAP::setDebug(false);
 #endif
     // initialize director
     auto director = Director::getInstance();
