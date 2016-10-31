@@ -1,6 +1,9 @@
 #include "HelloWorldScene.h"
 #include "editor-support/cocostudio/LocalizationManager.h"
 #include "TouchableLabel.h"
+#ifdef SDKBOX_ENABLED
+#include "pluginiap/PluginIAP.h"
+#endif
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -17,8 +20,6 @@ bool HelloWorld::init() {
     if (!Layer::init()) {
         return false;
     }
-    _isClicked = false;
-    _currentIndex = 0;
 
     if (Application::getInstance()->getCurrentLanguage() == LanguageType::RUSSIAN) {
         cocostudio::JsonLocalizationManager::getInstance()->initLanguageData("text/ru-RU.lang.json");
@@ -65,18 +66,47 @@ void HelloWorld::initPageView() {
 
         pageView->pushBackCustomItem(layout);
     }
-    pageView->addEventListener(CC_CALLBACK_2(HelloWorld::pageViewEvent, this));
+
+    auto l2 = Layout::create();
+    l2->setContentSize(size);
+    auto bb = Label::createWithTTF(localManager->getLocalizationString("s0"), "fonts/helios.ttf", 65);
+    bb->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    bb->setPosition(400, 1100);
+    bb->setWidth(700);
+    bb->setAlignment(TextHAlignment::LEFT);
+    l2->addChild(bb);
+
+    MenuItemFont::setFontName("fonts/helios.ttf");
+    MenuItemFont::setFontSize(100);
+
+    //    auto item1 = MenuItemFont::create("СКАЗАТЬ\nСПАСИБО", [&](Ref* ref){
+    auto item1 = MenuItemFont::create(localManager->getLocalizationString("s1"), [&](Ref* ref){
+        #ifdef SDKBOX_ENABLED
+            sdkbox::IAP::purchase("thank_you_1");
+        #endif
+});
+    item1->setPosition(50, 300);
+    item1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+
+
+    auto item2 = MenuItemFont::create(localManager->getLocalizationString("bb"), [&](Ref* ref){
+            Director::getInstance()->end();
+        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            exit(0);
+        #endif
+});
+    item2->setPosition(50, 50);
+    item2->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    auto menu = Menu::create(item1, item2, nullptr);
+
+    menu->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    menu->setPosition(0, 0);
+    l2->addChild(menu);
+
+    pageView->pushBackCustomItem(l2);
+
     this->addChild(pageView, 1, 0);
 }
-
-void HelloWorld::pageViewEvent(Ref *pSender, PageView::EventType type) {
-    _isClicked = false;
-}
-
-void HelloWorld::fillLayout(Layout *layout, const int& ind) {
-
-}
-
 
 std::string HelloWorld::convertInt(const int &ind) {
     char buffer[10];
@@ -96,4 +126,3 @@ std::string HelloWorld::convertJson(const int &ind, bool flag) {
 
     return std::string(buffer);
 }
-

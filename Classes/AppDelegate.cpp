@@ -37,8 +37,9 @@ static int register_all_packages()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
-#ifdef SDKBOX_ENABLED
+#ifdef SDKBOX_ENABLED    
     sdkbox::IAP::init();
+    sdkbox::IAP::setDebug(true);
 #endif
     // initialize director
     auto director = Director::getInstance();
@@ -53,14 +54,14 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     // turn on display FPS
-    director->setDisplayStats(true);
+    director->setDisplayStats(false);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0f / 60);
 
     // Set the design resolution
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
-    auto frameSize = glview->getFrameSize();
+//    auto frameSize = glview->getFrameSize();
     // if the frame's height is larger than the height of medium size.
 //    if (frameSize.height > mediumResolutionSize.height)
 //    {
