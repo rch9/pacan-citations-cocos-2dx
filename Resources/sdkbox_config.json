@@ -1,0 +1,41 @@
+{
+    "android": {
+        "iap": {
+            "items": {
+                "thank_you_1": {
+                    "type": "non_consumable",
+                    "id": "thank_you_1"
+                },
+                "thank_you_3": {
+                    "type": "non_consumable",
+                    "id": "thank_you_3"
+                },
+                "thank_you_7": {
+                    "type": "non_consumable",
+                    "id": "thank_you_7"
+                }
+            },
+            "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqnkXw3KBl0PwqvzwZ0xxWLDNb8moYbZGZUu/eD8TIyCsDJifXenPyj9t7sedafKZg0/PXTFYGVb6KQOKHX+viKMzR+nFO6+1t4N/4w/bh1idtTsKbPUL4ovygY2hVR6kLZWbhTIcIeUh61SSMn7MMpgrLcC4KDHumNm2s2PGilnUAlbJuAeiMldbhK3O6P4Jia1I0zxdEldveYhpAw65ziKHny6U0vGOqx0hzRn9Xz47auxOf8Wi+Q5yaH5sfDKunvwN8ZfGYfeQ0eNPQfdjXSq+7ZHwcO/iORxW/D7n8UNjQ4AVFx7muHwLuxYFLpC9dvUJXBEJzfgBVsuLm5tsGQIDAQAB"
+        }
+    },
+    "ios": {
+        "iap": {
+            "items": {
+                "remove_ads": {
+                    "type": "non_consumable",
+                    "id": "com.cocos2dx.non1"
+                },
+                "double_coin": {
+                    "type": "non_consumable",
+                    "id": "com.cocos2dx.non2"
+                },
+                "coin_package": {
+                    "id": "com.cocos2dx.plugintest2"
+                },
+                "coin_package2": {
+                    "id": "com.cocos2dx.plugintest3"
+                }
+            }
+        }
+    }
+}
